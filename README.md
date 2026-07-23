@@ -1,0 +1,2 @@
+# Kalkulator-sigma
+Imaginator company
