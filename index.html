@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Bangun Datar</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #f4f7f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+    h2 {
+      margin-top: 0;
+      color: #333;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #444;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #eef9f1;
+      border-left: 5px solid #4CAF50;
+      border-radius: 4px;
+      display: none;
+    }
+    .result p {
+      margin: 0;
+      font-size: 16px;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Kalkulator Bangun Datar</h2>
+    
+    <!-- Pilih Bangun Datar -->
+    <div class="form-group">
+      <label for="shape">Pilih Bangun Datar:</label>
+      <select id="shape" onchange="renderInputs()">
+        <option value="">-- Pilih Bangun --</option>
+        <option value="segitiga">Segitiga</option>
+        <option value="persegi">Persegi</option>
+        <option value="persegi_panjang">Persegi Panjang</option>
+        <option value="jajar_genjang">Jajar Genjang</option>
+        <option value="trapesium">Trapesium</option>
+        <option value="belah_ketupat">Belah Ketupat</option>
+        <option value="layang_layang">Layang-Layang</option>
+        <option value="lingkaran">Lingkaran</option>
+      </select>
+    </div>
+
+    <!-- Pilih Perhitungan -->
+    <div class="form-group" id="calcTypeGroup" style="display: none;">
+      <label for="calcType">Pilih Perhitungan:</label>
+      <select id="calcType" onchange="renderInputs()">
+        <option value="luas">Luas</option>
+        <option value="keliling">Keliling</option>
+      </select>
+    </div>
+
+    <!-- Input Parameter Dinamis -->
+    <div id="dynamicInputs"></div>
+
+    <button id="btnHitung" onclick="hitunghasil()" style="display: none;">Hitung</button>
+
+    <!-- Tempat Hasil -->
+    <div class="result" id="resultBox">
+      <p id="resultText"></p>
+    </div>
+  </div>
+
+  <script>
+    function renderInputs() {
+      const shape = document.getElementById('shape').value;
+      const calcType = document.getElementById('calcType').value;
+      const calcTypeGroup = document.getElementById('calcTypeGroup');
+      const dynamicInputs = document.getElementById('dynamicInputs');
+      const btnHitung = document.getElementById('btnHitung');
+      const resultBox = document.getElementById('resultBox');
+
+      resultBox.style.display = 'none';
+
+      if (!shape) {
+        calcTypeGroup.style.display = 'none';
+        dynamicInputs.innerHTML = '';
+        btnHitung.style.display = 'none';
+        return;
+      }
+
+      calcTypeGroup.style.display = 'block';
+      btnHitung.style.display = 'block';
+      let html = '';
+
+      // Menentukan form input berdasarkan bangun & jenis hitungan
+      if (shape === 'segitiga') {
+        if (calcType === 'keliling') {
+          html += createInput('s1', 'Masukkan Sisi 1');
+          html += createInput('s2', 'Masukkan Sisi 2');
+          html += createInput('s3', 'Masukkan Sisi 3');
+        } else {
+          html += createInput('a', 'Masukkan Alas');
+          html += createInput('t', 'Masukkan Tinggi');
+        }
+      } else if (shape === 'persegi') {
+        html += createInput('s', 'Masukkan Sisi');
+      } else if (shape === 'persegi_panjang') {
+        html += createInput('p', 'Masukkan Panjang');
+        html += createInput('l', 'Masukkan Lebar');
+      } else if (shape === 'jajar_genjang') {
+        if (calcType === 'keliling') {
+          html += createInput('a', 'Masukkan Sisi Alas');
+          html += createInput('b', 'Masukkan Sisi Miring');
+        } else {
+          html += createInput('a', 'Masukkan Alas');
+          html += createInput('t', 'Masukkan Tinggi');
+        }
+      } else if (shape === 'trapesium') {
+        if (calcType === 'keliling') {
+          html += createInput('s1', 'Masukkan Sisi 1');
+          html += createInput('s2', 'Masukkan Sisi 2');
+          html += createInput('s3', 'Masukkan Sisi 3');
+          html += createInput('s4', 'Masukkan Sisi 4');
+        } else {
+          html += createInput('a', 'Masukkan Sisi Sejajar A');
+          html += createInput('b', 'Masukkan Sisi Sejajar B');
+          html += createInput('t', 'Masukkan Tinggi');
+        }
+      } else if (shape === 'belah_ketupat' || shape === 'layang_layang') {
+        if (calcType === 'keliling') {
+          if (shape === 'belah_ketupat') {
+            html += createInput('s', 'Masukkan Sisi');
+          } else {
+            html += createInput('a', 'Masukkan Sisi A');
+            html += createInput('b', 'Masukkan Sisi B');
+          }
+        } else {
+          html += createInput('d1', 'Masukkan Diagonal 1');
+          html += createInput('d2', 'Masukkan Diagonal 2');
+        }
+      } else if (shape === 'lingkaran') {
+        html += createInput('r', 'Masukkan Jari-Jari');
+      }
+
+      dynamicInputs.innerHTML = html;
+    }
+
+    function createInput(id, labelText) {
+      return `
+        <div class="form-group">
+          <label for="${id}">${labelText}:</label>
+          <input type="number" id="${id}" step="any" placeholder="0">
+        </div>
+      `;
+    }
+
+    function getVal(id) {
+      return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function hitunghasil() {
+      const shape = document.getElementById('shape').value;
+      const calcType = document.getElementById('calcType').value;
+      let hasil = 0;
+
+      if (shape === 'segitiga') {
+        if (calcType === 'keliling') hasil = getVal('s1') + getVal('s2') + getVal('s3');
+        else hasil = 0.5 * getVal('a') * getVal('t');
+      } else if (shape === 'persegi') {
+        if (calcType === 'keliling') hasil = 4 * getVal('s');
+        else hasil = getVal('s') * getVal('s');
+      } else if (shape === 'persegi_panjang') {
+        if (calcType === 'keliling') hasil = 2 * (getVal('p') + getVal('l'));
+        else hasil = getVal('p') * getVal('l');
+      } else if (shape === 'jajar_genjang') {
+        if (calcType === 'keliling') hasil = 2 * (getVal('a') + getVal('b'));
+        else hasil = getVal('a') * getVal('t');
+      } else if (shape === 'trapesium') {
+        if (calcType === 'keliling') hasil = getVal('s1') + getVal('s2') + getVal('s3') + getVal('s4');
+        else hasil = ((getVal('a') + getVal('b')) * getVal('t')) / 2;
+      } else if (shape === 'belah_ketupat') {
+        if (calcType === 'keliling') hasil = 4 * getVal('s');
+        else hasil = (getVal('d1') * getVal('d2')) / 2;
+      } else if (shape === 'layang_layang') {
+        if (calcType === 'keliling') hasil = 2 * (getVal('a') + getVal('b'));
+        else hasil = (getVal('d1') * getVal('d2')) / 2;
+      } else if (shape === 'lingkaran') {
+        const r = getVal('r');
+        if (calcType === 'keliling') hasil = 2 * 3.14 * r;
+        else hasil = 3.14 * r * r;
+      }
+
+      const resultBox = document.getElementById('resultBox');
+      const resultText = document.getElementById('resultText');
+      resultText.innerText = `${calcType.toUpperCase()} = ${hasil}`;
+      resultBox.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
