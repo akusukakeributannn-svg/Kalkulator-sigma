@@ -3,250 +3,303 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kalkulator Bangun Datar</title>
+  <title>Kalkulator Bangun Datar Interaktif</title>
   <style>
+    /* --- CSS GLOBAL & LAYOUT --- */
     * {
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
     body {
       background-color: #f4f7f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       margin: 0;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
     }
-    .card {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 450px;
-    }
-    h2 {
-      margin-top: 0;
-      color: #333;
+    h1, h2 {
+      color: #2c3e50;
       text-align: center;
     }
-    .form-group {
+    h1 { margin-bottom: 30px; }
+
+    /* --- MENU UTAMA (GALERI GAMBAR) --- */
+    #menu-section {
+      width: 100%;
+      max-width: 1000px;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .shape-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      border: 3px solid transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .shape-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-color: #3498db;
+    }
+    .shape-card svg {
+      width: 100px;
+      height: 100px;
       margin-bottom: 15px;
     }
+    .shape-card span {
+      font-weight: bold;
+      color: #34495e;
+      font-size: 1.1em;
+    }
+
+    /* --- SEKSI KALKULATOR (TERSEMBUNYI DI AWAL) --- */
+    #calculator-section {
+      display: none; /* Sembunyi */
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .back-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8em;
+    }
+    .back-btn:hover { background: #c0392b; }
+    
+    #calc-icon-container {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    #calc-icon-container svg {
+      width: 80px;
+      height: 80px;
+    }
+
+    /* --- FORM & INPUT --- */
+    .form-group { margin-bottom: 15px; }
     label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       font-weight: 600;
-      color: #444;
+      color: #555;
     }
-    select, input {
+    select, input[type="number"] {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
     }
     select:focus, input:focus {
       outline: none;
-      border-color: #4CAF50;
+      border-color: #3498db;
+      box-shadow: 0 0 5px rgba(52,152,219,0.3);
     }
-    button {
+    
+    button.calc-btn {
       width: 100%;
       padding: 12px;
-      background-color: #4CAF50;
+      background-color: #2ecc71;
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 1.1em;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
       transition: background 0.2s;
     }
-    button:hover {
-      background-color: #45a049;
-    }
-    .result {
+    button.calc-btn:hover { background-color: #27ae60; }
+
+    /* --- HASIL --- */
+    #result-box {
       margin-top: 20px;
       padding: 15px;
-      background-color: #eef9f1;
-      border-left: 5px solid #4CAF50;
-      border-radius: 4px;
-      display: none;
+      background-color: #e8f8f5;
+      border-left: 5px solid #2ecc71;
+      border-radius: 5px;
+      display: none; /* Sembunyi */
+      text-align: center;
     }
-    .result p {
-      margin: 0;
-      font-size: 16px;
-      color: #2e7d32;
-      font-weight: 600;
-    }
+    #result-box h3 { margin: 0; color: #27ae60; font-size: 1.4em; }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <h2>Kalkulator Bangun Datar</h2>
-    
-    <!-- Pilih Bangun Datar -->
-    <div class="form-group">
-      <label for="shape">Pilih Bangun Datar:</label>
-      <select id="shape" onchange="renderInputs()">
-        <option value="">-- Pilih Bangun --</option>
-        <option value="segitiga">Segitiga</option>
-        <option value="persegi">Persegi</option>
-        <option value="persegi_panjang">Persegi Panjang</option>
-        <option value="jajar_genjang">Jajar Genjang</option>
-        <option value="trapesium">Trapesium</option>
-        <option value="belah_ketupat">Belah Ketupat</option>
-        <option value="layang_layang">Layang-Layang</option>
-        <option value="lingkaran">Lingkaran</option>
-      </select>
-    </div>
+  <h1>Kalkulator Bangun Datar</h1>
 
-    <!-- Pilih Perhitungan -->
-    <div class="form-group" id="calcTypeGroup" style="display: none;">
-      <label for="calcType">Pilih Perhitungan:</label>
-      <select id="calcType" onchange="renderInputs()">
+  <!-- ========================================== -->
+  <!-- SEKSI 1: MENU PILIHAN GAMBAR -->
+  <!-- ========================================== -->
+  <div id="menu-section">
+    <h2>Silakan Pilih Bangun Datar:</h2>
+    <div class="grid-container" id="shapes-grid">
+      <!-- Kartu akan di-generate oleh JavaScript -->
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- SEKSI 2: FORM KALKULATOR -->
+  <!-- ========================================== -->
+  <div id="calculator-section">
+    <button class="back-btn" onclick="showMenu()">Beranda</button>
+    <div id="calc-icon-container"></div>
+    <h2 id="calc-title">Nama Bangun</h2>
+
+    <!-- Pilih Luas/Keliling -->
+    <div class="form-group">
+      <label>Mau menghitung apa?</label>
+      <select id="calc-type" onchange="renderInputs()">
         <option value="luas">Luas</option>
         <option value="keliling">Keliling</option>
       </select>
     </div>
 
-    <!-- Input Parameter Dinamis -->
-    <div id="dynamicInputs"></div>
+    <!-- Tempat Input Dinamis -->
+    <div id="dynamic-inputs"></div>
 
-    <button id="btnHitung" onclick="hitunghasil()" style="display: none;">Hitung</button>
+    <button class="calc-btn" onclick="calculate()">Hitung</button>
 
     <!-- Tempat Hasil -->
-    <div class="result" id="resultBox">
-      <p id="resultText"></p>
+    <div id="result-box">
+      <h3 id="result-text">Hasil: -</h3>
     </div>
   </div>
 
   <script>
-    function renderInputs() {
-      const shape = document.getElementById('shape').value;
-      const calcType = document.getElementById('calcType').value;
-      const calcTypeGroup = document.getElementById('calcTypeGroup');
-      const dynamicInputs = document.getElementById('dynamicInputs');
-      const btnHitung = document.getElementById('btnHitung');
-      const resultBox = document.getElementById('resultBox');
+    /* --- DATA & GAMBAR SVG --- */
+    const shapesData = {
+      segitiga: { nama: "Segitiga", svg: `<svg viewBox="0 0 100 100"><polygon points="50,15 15,85 85,85" fill="#e1f5fe" stroke="#0288d1" stroke-width="3"/></svg>` },
+      persegi: { nama: "Persegi", svg: `<svg viewBox="0 0 100 100"><rect x="20" y="20" width="60" height="60" fill="#e8f5e9" stroke="#388e3c" stroke-width="3"/></svg>` },
+      persegi_panjang: { nama: "Persegi Panjang", svg: `<svg viewBox="0 0 100 100"><rect x="10" y="30" width="80" height="40" fill="#fff3e0" stroke="#f57c00" stroke-width="3"/></svg>` },
+      jajar_genjang: { nama: "Jajar Genjang", svg: `<svg viewBox="0 0 100 100"><polygon points="30,25 90,25 70,75 10,75" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="3"/></svg>` },
+      trapesium: { nama: "Trapesium", svg: `<svg viewBox="0 0 100 100"><polygon points="30,25 70,25 90,75 10,75" fill="#fbe9e7" stroke="#d84315" stroke-width="3"/></svg>` },
+      belah_ketupat: { nama: "Belah Ketupat", svg: `<svg viewBox="0 0 100 100"><polygon points="50,10 85,50 50,90 15,50" fill="#e0f2f1" stroke="#00695c" stroke-width="3"/></svg>` },
+      layang_layang: { nama: "Layang Layang", svg: `<svg viewBox="0 0 100 100"><polygon points="50,10 85,40 50,90 15,40" fill="#fffde7" stroke="#fbc02d" stroke-width="3"/></svg>` },
+      lingkaran: { nama: "Lingkaran", svg: `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="#fce4ec" stroke="#c2185b" stroke-width="3"/></svg>` }
+    };
 
-      resultBox.style.display = 'none';
+    // Variabel global untuk menyimpan bangun yang sedang dipilih
+    let currentShape = ''; 
 
-      if (!shape) {
-        calcTypeGroup.style.display = 'none';
-        dynamicInputs.innerHTML = '';
-        btnHitung.style.display = 'none';
-        return;
-      }
-
-      calcTypeGroup.style.display = 'block';
-      btnHitung.style.display = 'block';
-      let html = '';
-
-      // Menentukan form input berdasarkan bangun & jenis hitungan
-      if (shape === 'segitiga') {
-        if (calcType === 'keliling') {
-          html += createInput('s1', 'Masukkan Sisi 1');
-          html += createInput('s2', 'Masukkan Sisi 2');
-          html += createInput('s3', 'Masukkan Sisi 3');
-        } else {
-          html += createInput('a', 'Masukkan Alas');
-          html += createInput('t', 'Masukkan Tinggi');
-        }
-      } else if (shape === 'persegi') {
-        html += createInput('s', 'Masukkan Sisi');
-      } else if (shape === 'persegi_panjang') {
-        html += createInput('p', 'Masukkan Panjang');
-        html += createInput('l', 'Masukkan Lebar');
-      } else if (shape === 'jajar_genjang') {
-        if (calcType === 'keliling') {
-          html += createInput('a', 'Masukkan Sisi Alas');
-          html += createInput('b', 'Masukkan Sisi Miring');
-        } else {
-          html += createInput('a', 'Masukkan Alas');
-          html += createInput('t', 'Masukkan Tinggi');
-        }
-      } else if (shape === 'trapesium') {
-        if (calcType === 'keliling') {
-          html += createInput('s1', 'Masukkan Sisi 1');
-          html += createInput('s2', 'Masukkan Sisi 2');
-          html += createInput('s3', 'Masukkan Sisi 3');
-          html += createInput('s4', 'Masukkan Sisi 4');
-        } else {
-          html += createInput('a', 'Masukkan Sisi Sejajar A');
-          html += createInput('b', 'Masukkan Sisi Sejajar B');
-          html += createInput('t', 'Masukkan Tinggi');
-        }
-      } else if (shape === 'belah_ketupat' || shape === 'layang_layang') {
-        if (calcType === 'keliling') {
-          if (shape === 'belah_ketupat') {
-            html += createInput('s', 'Masukkan Sisi');
-          } else {
-            html += createInput('a', 'Masukkan Sisi A');
-            html += createInput('b', 'Masukkan Sisi B');
-          }
-        } else {
-          html += createInput('d1', 'Masukkan Diagonal 1');
-          html += createInput('d2', 'Masukkan Diagonal 2');
-        }
-      } else if (shape === 'lingkaran') {
-        html += createInput('r', 'Masukkan Jari-Jari');
-      }
-
-      dynamicInputs.innerHTML = html;
-    }
-
-    function createInput(id, labelText) {
-      return `
-        <div class="form-group">
-          <label for="${id}">${labelText}:</label>
-          <input type="number" id="${id}" step="any" placeholder="0">
+    /* --- NAVIGASI & UI --- */
+    
+    // 1. Generate Menu Grid di Awal
+    const grid = document.getElementById('shapes-grid');
+    for (const key in shapesData) {
+      grid.innerHTML += `
+        <div class="shape-card" onclick="selectShape('${key}')">
+          ${shapesData[key].svg}
+          <span>${shapesData[key].nama}</span>
         </div>
       `;
     }
 
-    function getVal(id) {
-      return parseFloat(document.getElementById(id).value) || 0;
+    // 2. Fungsi saat gambar diklik
+    function selectShape(key) {
+      currentShape = key;
+      document.getElementById('menu-section').style.display = 'none'; // Sembunyi menu
+      document.getElementById('calculator-section').style.display = 'block'; // Tampil kalkulator
+      
+      document.getElementById('calc-title').innerText = shapesData[key].nama;
+      document.getElementById('calc-icon-container').innerHTML = shapesData[key].svg;
+      
+      // Reset dropdown dan hasil
+      document.getElementById('calc-type').value = 'luas';
+      hideResult();
+      renderInputs(); // Munculkan input form pertama kali
     }
 
-    function hitunghasil() {
-      const shape = document.getElementById('shape').value;
-      const calcType = document.getElementById('calcType').value;
-      let hasil = 0;
+    // 3. Fungsi Kembali ke Menu
+    function showMenu() {
+      document.getElementById('menu-section').style.display = 'block';
+      document.getElementById('calculator-section').style.display = 'none';
+      currentShape = '';
+    }
 
-      if (shape === 'segitiga') {
-        if (calcType === 'keliling') hasil = getVal('s1') + getVal('s2') + getVal('s3');
-        else hasil = 0.5 * getVal('a') * getVal('t');
-      } else if (shape === 'persegi') {
-        if (calcType === 'keliling') hasil = 4 * getVal('s');
-        else hasil = getVal('s') * getVal('s');
-      } else if (shape === 'persegi_panjang') {
-        if (calcType === 'keliling') hasil = 2 * (getVal('p') + getVal('l'));
-        else hasil = getVal('p') * getVal('l');
-      } else if (shape === 'jajar_genjang') {
-        if (calcType === 'keliling') hasil = 2 * (getVal('a') + getVal('b'));
-        else hasil = getVal('a') * getVal('t');
-      } else if (shape === 'trapesium') {
-        if (calcType === 'keliling') hasil = getVal('s1') + getVal('s2') + getVal('s3') + getVal('s4');
-        else hasil = ((getVal('a') + getVal('b')) * getVal('t')) / 2;
-      } else if (shape === 'belah_ketupat') {
-        if (calcType === 'keliling') hasil = 4 * getVal('s');
-        else hasil = (getVal('d1') * getVal('d2')) / 2;
-      } else if (shape === 'layang_layang') {
-        if (calcType === 'keliling') hasil = 2 * (getVal('a') + getVal('b'));
-        else hasil = (getVal('d1') * getVal('d2')) / 2;
-      } else if (shape === 'lingkaran') {
-        const r = getVal('r');
-        if (calcType === 'keliling') hasil = 2 * 3.14 * r;
-        else hasil = 3.14 * r * r;
+    function hideResult() {
+      document.getElementById('result-box').style.display = 'none';
+    }
+
+    /* --- LOGIKA INPUT & PERHITUNGAN --- */
+
+    // Render Input Form secara dinamis
+    function renderInputs() {
+      hideResult();
+      const type = document.getElementById('calc-type').value; // luas/keliling
+      const container = document.getElementById('dynamic-inputs');
+      let html = '';
+
+      // Fungsi pembantu buat HTML input
+      const inp = (id, label) => `<div class="form-group"><label>${label}:</label><input type="number" id="${id}" placeholder="0" step="any"></div>`;
+
+      if (currentShape === 'segitiga') {
+        html += (type === 'luas') ? inp('alas','Alas') + inp('tinggi','Tinggi') : inp('s1','Sisi A') + inp('s2','Sisi B') + inp('s3','Sisi C');
+      } else if (currentShape === 'persegi') {
+        html += inp('sisi', 'Sisi');
+      } else if (currentShape === 'persegi_panjang') {
+        html += inp('panjang', 'Panjang') + inp('lebar', 'Lebar');
+      } else if (currentShape === 'jajar_genjang') {
+        html += (type === 'luas') ? inp('alas','Alas') + inp('tinggi','Tinggi') : inp('s1','Sisi Alas (a)') + inp('s2','Sisi Miring (b)');
+      } else if (currentShape === 'trapesium') {
+        html += (type === 'luas') ? inp('a','Sisi Sejajar Atas (a)') + inp('b','Sisi Sejajar Bawah (b)') + inp('tinggi','Tinggi') : inp('s1','Sisi 1') + inp('s2','Sisi 2') + inp('s3','Sisi 3') + inp('s4','Sisi 4');
+      } else if (currentShape === 'belah_ketupat') {
+        html += (type === 'luas') ? inp('d1','Diagonal 1') + inp('d2','Diagonal 2') : inp('sisi','Sisi');
+      } else if (currentShape === 'layang_layang') {
+        html += (type === 'luas') ? inp('d1','Diagonal 1') + inp('d2','Diagonal 2') : inp('s1','Sisi Miring Pendek') + inp('s2','Sisi Miring Panjang');
+      } else if (currentShape === 'lingkaran') {
+        html += inp('r', 'Jari-jari (r)');
       }
 
-      const resultBox = document.getElementById('resultBox');
-      const resultText = document.getElementById('resultText');
-      resultText.innerText = `${calcType.toUpperCase()} = ${hasil}`;
+      container.innerHTML = html;
+    }
+
+    // Ambil nilai input
+    const v = (id) => parseFloat(document.getElementById(id).value) || 0;
+
+    // Hitung Hasil
+    function calculate() {
+      const type = document.getElementById('calc-type').value;
+      let res = 0;
+
+      switch(currentShape) {
+        case 'segitiga': res = (type === 'luas') ? 0.5 * v('alas') * v('tinggi') : v('s1')+v('s2')+v('s3'); break;
+        case 'persegi': res = (type === 'luas') ? v('sisi')**2 : 4 * v('sisi'); break;
+        case 'persegi_panjang': res = (type === 'luas') ? v('panjang')*v('lebar') : 2*(v('panjang')+v('lebar')); break;
+        case 'jajar_genjang': res = (type === 'luas') ? v('alas')*v('tinggi') : 2*(v('s1')+v('s2')); break;
+        case 'trapesium': res = (type === 'luas') ? 0.5*(v('a')+v('b'))*v('tinggi') : v('s1')+v('s2')+v('s3')+v('s4'); break;
+        case 'belah_ketupat': res = (type === 'luas') ? 0.5*v('d1')*v('d2') : 4 * v('sisi'); break;
+        case 'layang_layang': res = (type === 'luas') ? 0.5*v('d1')*v('d2') : 2*(v('s1')+v('s2')); break;
+        case 'lingkaran': res = (type === 'luas') ? Math.PI * (v('r')**2) : 2 * Math.PI * v('r'); break;
+      }
+
+      // Tampilkan Hasil
+      const resultBox = document.getElementById('result-box');
+      document.getElementById('result-text').innerText = `${type.toUpperCase()} = ${Number(res.toFixed(2))}`;
       resultBox.style.display = 'block';
     }
   </script>
