@@ -19,10 +19,6 @@ body {
     color: #2c3e50;
 }
 
-/* =========================
-   GLOBAL
-========================= */
-
 .page {
     display: none;
     min-height: 100vh;
@@ -106,7 +102,7 @@ h1, h2, h3 {
 }
 
 /* =========================
-   HEADER HALAMAN
+   HEADER
 ========================= */
 
 .page-header {
@@ -124,10 +120,6 @@ h1, h2, h3 {
 }
 
 .back-btn {
-    position: absolute;
-    left: 0;
-    top: 0;
-
     background: #e74c3c;
     color: white;
     border: none;
@@ -144,11 +136,52 @@ h1, h2, h3 {
 }
 
 /* =========================
-   KALKULATOR
+   KATEGORI KALKULATOR
 ========================= */
 
-#calculator-page .container {
-    max-width: 1000px;
+.category-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+.category-card {
+    background: white;
+    padding: 40px 25px;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: 0.25s;
+}
+
+.category-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.category-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+}
+
+.category-card h2 {
+    margin: 10px 0;
+}
+
+.category-card p {
+    color: #7f8c8d;
+}
+
+/* =========================
+   MENU BANGUN
+========================= */
+
+#shape-navigation {
+    display: none;
+    margin-bottom: 20px;
 }
 
 .grid-container {
@@ -161,14 +194,10 @@ h1, h2, h3 {
     background: white;
     border-radius: 15px;
     padding: 20px;
-
     text-align: center;
     cursor: pointer;
-
     border: 3px solid transparent;
-
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-
     transition: 0.2s;
 }
 
@@ -189,14 +218,14 @@ h1, h2, h3 {
 }
 
 /* =========================
-   FORM KALKULATOR
+   KALKULATOR
 ========================= */
 
 #calculator-box {
     display: none;
 
     background: white;
-    max-width: 500px;
+    max-width: 550px;
 
     margin: auto;
     padding: 30px;
@@ -204,6 +233,10 @@ h1, h2, h3 {
     border-radius: 15px;
 
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.calculator-back {
+    margin-bottom: 20px;
 }
 
 #calc-icon {
@@ -292,20 +325,14 @@ select {
 
 .formula-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(300px, 1fr));
-
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
 
 .formula-card {
     background: white;
-
     padding: 25px;
-
     border-radius: 15px;
-
     box-shadow: 0 5px 15px rgba(0,0,0,0.06);
 }
 
@@ -316,16 +343,11 @@ select {
 
 .formula {
     background: #f4f7f6;
-
     padding: 15px;
-
     border-radius: 8px;
-
     text-align: center;
-
     font-size: 1.2rem;
     font-weight: bold;
-
     margin: 15px 0;
 }
 
@@ -354,9 +376,8 @@ select {
         padding: 20px 15px;
     }
 
-    .back-btn {
-        position: static;
-        margin-bottom: 20px;
+    .page-header {
+        margin-bottom: 25px;
     }
 
 }
@@ -365,7 +386,6 @@ select {
 </head>
 
 <body>
-
 
 <!-- =====================================================
      HALAMAN UTAMA
@@ -383,42 +403,32 @@ select {
         Belajar, menghitung, dan memahami geometri dengan mudah.
     </div>
 
-
     <div class="home-menu">
-
-        <!-- KALKULATOR -->
 
         <div class="home-card"
              onclick="openPage('calculator-page')">
 
-            <div class="home-icon">
-                🧮
-            </div>
+            <div class="home-icon">🧮</div>
 
             <h2>Kalkulator</h2>
 
             <p>
-                Hitung luas dan keliling berbagai
-                bangun datar dengan langkah perhitungan.
+                Hitung berbagai bangun datar dan bangun ruang
+                dengan langkah perhitungan.
             </p>
 
         </div>
 
-
-        <!-- PEMBAHASAN -->
-
         <div class="home-card"
              onclick="openPage('discussion-page')">
 
-            <div class="home-icon">
-                📖
-            </div>
+            <div class="home-icon">📖</div>
 
             <h2>Pembahasan</h2>
 
             <p>
                 Pelajari rumus dan konsep berbagai
-                bangun datar secara lengkap.
+                bangun geometri.
             </p>
 
         </div>
@@ -428,7 +438,6 @@ select {
 </div>
 
 </section>
-
 
 
 <!-- =====================================================
@@ -450,27 +459,88 @@ select {
         <h1>Kalkulator Geometri</h1>
 
         <p>
-            Pilih bangun datar yang ingin dihitung
+            Pilih jenis bangun yang ingin dihitung
         </p>
 
     </div>
 
 
-    <!-- DAFTAR BANGUN -->
+    <!-- =========================
+         KATEGORI
+    ========================= -->
+
+    <div id="category-menu" class="category-menu">
+
+        <div class="category-card"
+             onclick="selectCategory('datar')">
+
+            <div class="category-icon">
+                🔷
+            </div>
+
+            <h2>Bangun Datar</h2>
+
+            <p>
+                Persegi, segitiga, lingkaran,
+                trapesium, dan lainnya.
+            </p>
+
+        </div>
+
+
+        <div class="category-card"
+             onclick="selectCategory('ruang')">
+
+            <div class="category-icon">
+                🧊
+            </div>
+
+            <h2>Bangun Ruang</h2>
+
+            <p>
+                Kubus, balok, prisma, tabung,
+                kerucut, bola, dan lainnya.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         NAVIGASI MENU BANGUN
+    ========================= -->
+
+    <div id="shape-navigation">
+
+        <button
+            class="back-btn"
+            onclick="backToCategory()">
+            ← Pilih Kategori
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         MENU BANGUN
+    ========================= -->
 
     <div id="shape-menu"
          class="grid-container">
     </div>
 
 
-    <!-- KALKULATOR -->
+    <!-- =========================
+         KALKULATOR
+    ========================= -->
 
     <div id="calculator-box">
 
         <button
-            class="back-btn"
+            class="back-btn calculator-back"
             onclick="backToShapes()">
-            ← Kembali
+            ← Kembali ke Bangun
         </button>
 
         <div id="calc-icon"></div>
@@ -487,15 +557,6 @@ select {
             <select
                 id="calc-type"
                 onchange="renderInputs()">
-
-                <option value="luas">
-                    Luas
-                </option>
-
-                <option value="keliling">
-                    Keliling
-                </option>
-
             </select>
 
         </div>
@@ -512,8 +573,6 @@ select {
 
         </button>
 
-
-        <!-- HASIL -->
 
         <div id="result-box">
 
@@ -536,7 +595,6 @@ select {
 </section>
 
 
-
 <!-- =====================================================
      HALAMAN PEMBAHASAN
 ===================================================== -->
@@ -556,7 +614,7 @@ select {
         <h1>Pembahasan Geometri</h1>
 
         <p>
-            Kumpulan rumus dan konsep bangun datar
+            Kumpulan rumus bangun datar dan bangun ruang
         </p>
 
     </div>
@@ -564,16 +622,13 @@ select {
 
     <div class="formula-grid">
 
-
-        <!-- SEGITIGA -->
+        <!-- BANGUN DATAR -->
 
         <div class="formula-card">
-
             <h2>Segitiga</h2>
 
             <p>
-                Segitiga adalah bangun datar yang
-                memiliki tiga sisi dan tiga sudut.
+                Bangun datar yang memiliki tiga sisi.
             </p>
 
             <div class="formula">
@@ -583,25 +638,14 @@ select {
             <div class="formula">
                 Keliling = a + b + c
             </div>
-
-            <div class="symbol">
-                a = alas<br>
-                t = tinggi<br>
-                a, b, c = panjang sisi
-            </div>
-
         </div>
 
 
-        <!-- PERSEGI -->
-
         <div class="formula-card">
-
             <h2>Persegi</h2>
 
             <p>
-                Persegi memiliki empat sisi yang
-                sama panjang dan empat sudut siku-siku.
+                Memiliki empat sisi sama panjang.
             </p>
 
             <div class="formula">
@@ -611,24 +655,11 @@ select {
             <div class="formula">
                 Keliling = 4 × s
             </div>
-
-            <div class="symbol">
-                s = sisi
-            </div>
-
         </div>
 
 
-        <!-- PERSEGI PANJANG -->
-
         <div class="formula-card">
-
             <h2>Persegi Panjang</h2>
-
-            <p>
-                Persegi panjang memiliki dua pasang
-                sisi yang sama panjang.
-            </p>
 
             <div class="formula">
                 Luas = p × l
@@ -637,25 +668,11 @@ select {
             <div class="formula">
                 Keliling = 2 × (p + l)
             </div>
-
-            <div class="symbol">
-                p = panjang<br>
-                l = lebar
-            </div>
-
         </div>
 
 
-        <!-- JAJAR GENJANG -->
-
         <div class="formula-card">
-
             <h2>Jajar Genjang</h2>
-
-            <p>
-                Jajar genjang memiliki dua pasang
-                sisi yang sejajar dan sama panjang.
-            </p>
 
             <div class="formula">
                 Luas = a × t
@@ -664,26 +681,11 @@ select {
             <div class="formula">
                 Keliling = 2 × (a + b)
             </div>
-
-            <div class="symbol">
-                a = alas<br>
-                t = tinggi<br>
-                b = sisi miring
-            </div>
-
         </div>
 
 
-        <!-- TRAPESIUM -->
-
         <div class="formula-card">
-
             <h2>Trapesium</h2>
-
-            <p>
-                Trapesium memiliki sepasang sisi
-                yang sejajar.
-            </p>
 
             <div class="formula">
                 Luas = ½ × (a + b) × t
@@ -692,26 +694,11 @@ select {
             <div class="formula">
                 Keliling = a + b + c + d
             </div>
-
-            <div class="symbol">
-                a, b = sisi sejajar<br>
-                t = tinggi<br>
-                c, d = sisi lainnya
-            </div>
-
         </div>
 
 
-        <!-- BELAH KETUPAT -->
-
         <div class="formula-card">
-
             <h2>Belah Ketupat</h2>
-
-            <p>
-                Belah ketupat memiliki empat sisi
-                yang sama panjang.
-            </p>
 
             <div class="formula">
                 Luas = ½ × d₁ × d₂
@@ -720,26 +707,11 @@ select {
             <div class="formula">
                 Keliling = 4 × s
             </div>
-
-            <div class="symbol">
-                d₁ = diagonal 1<br>
-                d₂ = diagonal 2<br>
-                s = sisi
-            </div>
-
         </div>
 
 
-        <!-- LAYANG-LAYANG -->
-
         <div class="formula-card">
-
             <h2>Layang-Layang</h2>
-
-            <p>
-                Layang-layang memiliki dua pasang
-                sisi yang sama panjang.
-            </p>
 
             <div class="formula">
                 Luas = ½ × d₁ × d₂
@@ -748,28 +720,11 @@ select {
             <div class="formula">
                 Keliling = 2 × (a + b)
             </div>
-
-            <div class="symbol">
-                d₁ = diagonal 1<br>
-                d₂ = diagonal 2<br>
-                a = sisi pendek<br>
-                b = sisi panjang
-            </div>
-
         </div>
 
 
-        <!-- LINGKARAN -->
-
         <div class="formula-card">
-
             <h2>Lingkaran</h2>
-
-            <p>
-                Lingkaran adalah bangun datar yang
-                semua titik pada garisnya memiliki
-                jarak yang sama dari pusat.
-            </p>
 
             <div class="formula">
                 Luas = π × r²
@@ -778,21 +733,167 @@ select {
             <div class="formula">
                 Keliling = 2 × π × r
             </div>
-
-            <div class="symbol">
-                π ≈ 3,14 atau 22/7<br>
-                r = jari-jari
-            </div>
-
         </div>
 
+
+        <!-- BANGUN RUANG -->
+
+        <div class="formula-card">
+            <h2>Kubus</h2>
+
+            <p>
+                Bangun ruang dengan enam sisi berbentuk persegi
+                yang sama besar.
+            </p>
+
+            <div class="formula">
+                Volume = s³
+            </div>
+
+            <div class="formula">
+                Luas Permukaan = 6 × s²
+            </div>
+
+            <div class="symbol">
+                s = panjang sisi
+            </div>
+        </div>
+
+
+        <div class="formula-card">
+            <h2>Balok</h2>
+
+            <p>
+                Bangun ruang yang memiliki tiga ukuran:
+                panjang, lebar, dan tinggi.
+            </p>
+
+            <div class="formula">
+                Volume = p × l × t
+            </div>
+
+            <div class="formula">
+                Luas Permukaan = 2(pl + pt + lt)
+            </div>
+        </div>
+
+
+        <div class="formula-card">
+            <h2>Prisma Segitiga</h2>
+
+            <p>
+                Prisma dengan alas berbentuk segitiga.
+            </p>
+
+            <div class="formula">
+                Volume = Luas Alas × Tinggi Prisma
+            </div>
+
+            <div class="formula">
+                Luas Permukaan =
+                2 × Luas Alas + Keliling Alas × Tinggi Prisma
+            </div>
+        </div>
+
+
+        <div class="formula-card">
+            <h2>Limas Segiempat</h2>
+
+            <p>
+                Limas dengan alas berbentuk persegi.
+            </p>
+
+            <div class="formula">
+                Volume = ⅓ × Luas Alas × Tinggi
+            </div>
+
+            <div class="formula">
+                Luas Permukaan =
+                Luas Alas + Luas Seluruh Sisi Tegak
+            </div>
+        </div>
+
+
+        <div class="formula-card">
+            <h2>Limas Segitiga</h2>
+
+            <p>
+                Limas dengan alas berbentuk segitiga.
+            </p>
+
+            <div class="formula">
+                Volume = ⅓ × Luas Alas × Tinggi
+            </div>
+
+            <div class="formula">
+                Luas Permukaan =
+                Luas Alas + Luas 3 Sisi Tegak
+            </div>
+        </div>
+
+
+        <div class="formula-card">
+            <h2>Tabung</h2>
+
+            <p>
+                Bangun ruang yang memiliki dua lingkaran
+                sejajar dan sebuah selimut.
+            </p>
+
+            <div class="formula">
+                Volume = π × r² × t
+            </div>
+
+            <div class="formula">
+                Luas Permukaan = 2πr(r + t)
+            </div>
+        </div>
+
+
+        <div class="formula-card">
+            <h2>Kerucut</h2>
+
+            <p>
+                Bangun ruang dengan alas lingkaran
+                dan satu titik puncak.
+            </p>
+
+            <div class="formula">
+                Volume = ⅓ × π × r² × t
+            </div>
+
+            <div class="formula">
+                Luas Permukaan = πr(r + s)
+            </div>
+
+            <div class="symbol">
+                s = garis pelukis
+            </div>
+        </div>
+
+
+        <div class="formula-card">
+            <h2>Bola</h2>
+
+            <p>
+                Bangun ruang yang seluruh titik pada
+                permukaannya memiliki jarak sama dari pusat.
+            </p>
+
+            <div class="formula">
+                Volume = ⁴⁄₃ × π × r³
+            </div>
+
+            <div class="formula">
+                Luas Permukaan = 4πr²
+            </div>
+        </div>
 
     </div>
 
 </div>
 
 </section>
-
 
 
 <script>
@@ -813,6 +914,13 @@ function openPage(pageId) {
         .getElementById(pageId)
         .classList.add('active');
 
+
+    /* Reset kalkulator ketika kembali ke halaman utama */
+
+    if (pageId === 'home') {
+        resetCalculator();
+    }
+
 }
 
 
@@ -820,7 +928,7 @@ function openPage(pageId) {
    DATA BANGUN DATAR
 ===================================================== */
 
-const shapesData = {
+const flatShapes = {
 
     segitiga: {
         nama: "Segitiga",
@@ -938,30 +1046,246 @@ const shapesData = {
 
 
 /* =====================================================
-   GENERATE MENU KALKULATOR
+   DATA BANGUN RUANG
 ===================================================== */
 
-const shapeMenu =
-    document.getElementById('shape-menu');
+const solidShapes = {
 
-for (const key in shapesData) {
+    kubus: {
+        nama: "Kubus",
 
-    shapeMenu.innerHTML += `
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <polygon
+                points="25,35 60,20 85,35 50,50"
+                fill="#e3f2fd"
+                stroke="#1976d2"
+                stroke-width="3"/>
 
-        <div
-            class="shape-card"
-            onclick="selectShape('${key}')">
+            <polygon
+                points="25,35 25,70 50,85 50,50"
+                fill="#bbdefb"
+                stroke="#1976d2"
+                stroke-width="3"/>
 
-            ${shapesData[key].svg}
+            <polygon
+                points="50,50 85,35 85,70 50,85"
+                fill="#90caf9"
+                stroke="#1976d2"
+                stroke-width="3"/>
+        </svg>`
+    },
 
-            <span>
-                ${shapesData[key].nama}
-            </span>
+    balok: {
+        nama: "Balok",
 
-        </div>
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <polygon
+                points="20,35 65,25 85,40 40,50"
+                fill="#fff3e0"
+                stroke="#ef6c00"
+                stroke-width="3"/>
 
-    `;
-}
+            <polygon
+                points="20,35 20,70 40,85 40,50"
+                fill="#ffe0b2"
+                stroke="#ef6c00"
+                stroke-width="3"/>
+
+            <polygon
+                points="40,50 85,40 85,70 40,85"
+                fill="#ffcc80"
+                stroke="#ef6c00"
+                stroke-width="3"/>
+        </svg>`
+    },
+
+    prisma_segitiga: {
+        nama: "Prisma Segitiga",
+
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <polygon
+                points="20,70 40,30 60,70"
+                fill="#e8f5e9"
+                stroke="#388e3c"
+                stroke-width="3"/>
+
+            <polygon
+                points="45,70 65,30 85,70"
+                fill="#c8e6c9"
+                stroke="#388e3c"
+                stroke-width="3"/>
+
+            <polygon
+                points="40,30 65,30 85,70 60,70"
+                fill="#a5d6a7"
+                stroke="#388e3c"
+                stroke-width="3"/>
+
+            <line
+                x1="20"
+                y1="70"
+                x2="45"
+                y2="70"
+                stroke="#388e3c"
+                stroke-width="3"/>
+        </svg>`
+    },
+
+    limas_segiempat: {
+        nama: "Limas Segiempat",
+
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <polygon
+                points="20,70 50,85 85,65 55,50"
+                fill="#f3e5f5"
+                stroke="#8e24aa"
+                stroke-width="3"/>
+
+            <polygon
+                points="52,15 20,70 50,85"
+                fill="#ce93d8"
+                stroke="#8e24aa"
+                stroke-width="3"/>
+
+            <polygon
+                points="52,15 85,65 50,85"
+                fill="#ba68c8"
+                stroke="#8e24aa"
+                stroke-width="3"/>
+        </svg>`
+    },
+
+    limas_segitiga: {
+        nama: "Limas Segitiga",
+
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <polygon
+                points="50,15 15,75 85,75"
+                fill="#ffebee"
+                stroke="#c62828"
+                stroke-width="3"/>
+
+            <line
+                x1="50"
+                y1="15"
+                x2="50"
+                y2="90"
+                stroke="#c62828"
+                stroke-width="3"/>
+
+            <line
+                x1="15"
+                y1="75"
+                x2="50"
+                y2="90"
+                stroke="#c62828"
+                stroke-width="3"/>
+
+            <line
+                x1="85"
+                y1="75"
+                x2="50"
+                y2="90"
+                stroke="#c62828"
+                stroke-width="3"/>
+        </svg>`
+    },
+
+    tabung: {
+        nama: "Tabung",
+
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <ellipse
+                cx="50"
+                cy="25"
+                rx="30"
+                ry="12"
+                fill="#e0f2f1"
+                stroke="#00897b"
+                stroke-width="3"/>
+
+            <rect
+                x="20"
+                y="25"
+                width="60"
+                height="50"
+                fill="#b2dfdb"
+                stroke="#00897b"
+                stroke-width="3"/>
+
+            <ellipse
+                cx="50"
+                cy="75"
+                rx="30"
+                ry="12"
+                fill="#80cbc4"
+                stroke="#00897b"
+                stroke-width="3"/>
+        </svg>`
+    },
+
+    kerucut: {
+        nama: "Kerucut",
+
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <path
+                d="M50 15 L20 75 Q50 90 80 75 Z"
+                fill="#fff3e0"
+                stroke="#ef6c00"
+                stroke-width="3"/>
+
+            <ellipse
+                cx="50"
+                cy="75"
+                rx="30"
+                ry="10"
+                fill="#ffcc80"
+                stroke="#ef6c00"
+                stroke-width="3"/>
+        </svg>`
+    },
+
+    bola: {
+        nama: "Bola",
+
+        svg: `
+        <svg viewBox="0 0 100 100">
+            <circle
+                cx="50"
+                cy="50"
+                r="35"
+                fill="#e1f5fe"
+                stroke="#0288d1"
+                stroke-width="3"/>
+
+            <ellipse
+                cx="50"
+                cy="50"
+                rx="35"
+                ry="12"
+                fill="none"
+                stroke="#0288d1"
+                stroke-width="2"/>
+
+            <ellipse
+                cx="50"
+                cy="50"
+                rx="12"
+                ry="35"
+                fill="none"
+                stroke="#0288d1"
+                stroke-width="2"/>
+        </svg>`
+    }
+
+};
 
 
 /* =====================================================
@@ -969,6 +1293,69 @@ for (const key in shapesData) {
 ===================================================== */
 
 let currentShape = '';
+let currentCategory = '';
+
+
+/* =====================================================
+   PILIH KATEGORI
+===================================================== */
+
+function selectCategory(category) {
+
+    currentCategory = category;
+    currentShape = '';
+
+    const data =
+        category === 'datar'
+        ? flatShapes
+        : solidShapes;
+
+    const menu =
+        document.getElementById('shape-menu');
+
+
+    /* Tampilkan menu bangun */
+
+    document.getElementById('category-menu')
+        .style.display = 'none';
+
+    document.getElementById('shape-navigation')
+        .style.display = 'block';
+
+    document.getElementById('shape-menu')
+        .style.display = 'grid';
+
+    document.getElementById('calculator-box')
+        .style.display = 'none';
+
+
+    /* Bersihkan menu lama */
+
+    menu.innerHTML = '';
+
+
+    /* Buat kartu bangun */
+
+    for (const key in data) {
+
+        menu.innerHTML += `
+
+            <div
+                class="shape-card"
+                onclick="selectShape('${key}')">
+
+                ${data[key].svg}
+
+                <span>
+                    ${data[key].nama}
+                </span>
+
+            </div>
+
+        `;
+    }
+
+}
 
 
 /* =====================================================
@@ -979,19 +1366,64 @@ function selectShape(key) {
 
     currentShape = key;
 
+
+    const data =
+        currentCategory === 'datar'
+        ? flatShapes
+        : solidShapes;
+
+
+    /* Sembunyikan menu bangun */
+
     document.getElementById('shape-menu')
         .style.display = 'none';
+
+    document.getElementById('shape-navigation')
+        .style.display = 'none';
+
+
+    /* Tampilkan kalkulator */
 
     document.getElementById('calculator-box')
         .style.display = 'block';
 
+
+    /* Judul */
+
     document.getElementById('calc-title')
-        .innerText = shapesData[key].nama;
+        .innerText = data[key].nama;
+
+
+    /* Ikon */
 
     document.getElementById('calc-icon')
-        .innerHTML = shapesData[key].svg;
+        .innerHTML = data[key].svg;
 
-    document.getElementById('calc-type').value = 'luas';
+
+    /* Pilihan perhitungan */
+
+    const select =
+        document.getElementById('calc-type');
+
+    select.innerHTML = '';
+
+
+    if (currentCategory === 'datar') {
+
+        select.innerHTML = `
+            <option value="luas">Luas</option>
+            <option value="keliling">Keliling</option>
+        `;
+
+    } else {
+
+        select.innerHTML = `
+            <option value="volume">Volume</option>
+            <option value="permukaan">Luas Permukaan</option>
+        `;
+
+    }
+
 
     renderInputs();
 
@@ -1007,8 +1439,69 @@ function backToShapes() {
     document.getElementById('calculator-box')
         .style.display = 'none';
 
+    document.getElementById('shape-navigation')
+        .style.display = 'block';
+
     document.getElementById('shape-menu')
         .style.display = 'grid';
+
+    document.getElementById('result-box')
+        .style.display = 'none';
+
+}
+
+
+/* =====================================================
+   KEMBALI KE PILIHAN KATEGORI
+===================================================== */
+
+function backToCategory() {
+
+    document.getElementById('calculator-box')
+        .style.display = 'none';
+
+    document.getElementById('shape-menu')
+        .style.display = 'none';
+
+    document.getElementById('shape-navigation')
+        .style.display = 'none';
+
+    document.getElementById('category-menu')
+        .style.display = 'grid';
+
+
+    /* Reset pilihan */
+
+    currentShape = '';
+    currentCategory = '';
+
+}
+
+
+/* =====================================================
+   RESET KALKULATOR
+===================================================== */
+
+function resetCalculator() {
+
+    document.getElementById('category-menu')
+        .style.display = 'grid';
+
+    document.getElementById('shape-navigation')
+        .style.display = 'none';
+
+    document.getElementById('shape-menu')
+        .style.display = 'none';
+
+    document.getElementById('calculator-box')
+        .style.display = 'none';
+
+    document.getElementById('result-box')
+        .style.display = 'none';
+
+
+    currentShape = '';
+    currentCategory = '';
 
 }
 
@@ -1038,110 +1531,193 @@ function renderInputs() {
                 type="number"
                 id="${id}"
                 placeholder="0"
-                step="any">
+                step="any"
+                min="0">
 
         </div>
 
     `;
 
 
-    if (currentShape === 'segitiga') {
+    /* =========================
+       BANGUN DATAR
+    ========================= */
 
-        html =
-            type === 'luas'
+    if (currentCategory === 'datar') {
 
-            ? inp('alas','Alas') +
-              inp('tinggi','Tinggi')
+        if (currentShape === 'segitiga') {
 
-            : inp('s1','Sisi A') +
-              inp('s2','Sisi B') +
-              inp('s3','Sisi C');
+            html =
+                type === 'luas'
+
+                ? inp('alas','Alas') +
+                  inp('tinggi','Tinggi')
+
+                : inp('s1','Sisi A') +
+                  inp('s2','Sisi B') +
+                  inp('s3','Sisi C');
+
+        }
+
+        else if (currentShape === 'persegi') {
+
+            html = inp('sisi','Sisi');
+
+        }
+
+        else if (currentShape === 'persegi_panjang') {
+
+            html =
+                inp('panjang','Panjang') +
+                inp('lebar','Lebar');
+
+        }
+
+        else if (currentShape === 'jajar_genjang') {
+
+            html =
+                type === 'luas'
+
+                ? inp('alas','Alas') +
+                  inp('tinggi','Tinggi')
+
+                : inp('s1','Sisi Alas') +
+                  inp('s2','Sisi Miring');
+
+        }
+
+        else if (currentShape === 'trapesium') {
+
+            html =
+                type === 'luas'
+
+                ? inp('a','Sisi Sejajar Atas') +
+                  inp('b','Sisi Sejajar Bawah') +
+                  inp('tinggi','Tinggi')
+
+                : inp('s1','Sisi 1') +
+                  inp('s2','Sisi 2') +
+                  inp('s3','Sisi 3') +
+                  inp('s4','Sisi 4');
+
+        }
+
+        else if (currentShape === 'belah_ketupat') {
+
+            html =
+                type === 'luas'
+
+                ? inp('d1','Diagonal 1') +
+                  inp('d2','Diagonal 2')
+
+                : inp('sisi','Sisi');
+
+        }
+
+        else if (currentShape === 'layang_layang') {
+
+            html =
+                type === 'luas'
+
+                ? inp('d1','Diagonal 1') +
+                  inp('d2','Diagonal 2')
+
+                : inp('s1','Sisi Pendek') +
+                  inp('s2','Sisi Panjang');
+
+        }
+
+        else if (currentShape === 'lingkaran') {
+
+            html = inp('r','Jari-jari (r)');
+
+        }
 
     }
 
 
-    else if (currentShape === 'persegi') {
+    /* =========================
+       BANGUN RUANG
+    ========================= */
 
-        html = inp('sisi','Sisi');
+    else {
 
-    }
+        if (currentShape === 'kubus') {
 
+            html = inp('sisi','Sisi');
 
-    else if (currentShape === 'persegi_panjang') {
+        }
 
-        html =
-            inp('panjang','Panjang') +
-            inp('lebar','Lebar');
+        else if (currentShape === 'balok') {
 
-    }
+            html =
+                inp('panjang','Panjang') +
+                inp('lebar','Lebar') +
+                inp('tinggi','Tinggi');
 
+        }
 
-    else if (currentShape === 'jajar_genjang') {
+        else if (currentShape === 'prisma_segitiga') {
 
-        html =
-            type === 'luas'
+            html =
+                inp('alas','Alas Segitiga') +
+                inp('tinggi_alas','Tinggi Segitiga') +
+                inp('s1','Sisi Segitiga 1') +
+                inp('s2','Sisi Segitiga 2') +
+                inp('s3','Sisi Segitiga 3') +
+                inp('tinggi_prisma','Tinggi Prisma');
 
-            ? inp('alas','Alas') +
-              inp('tinggi','Tinggi')
+        }
 
-            : inp('s1','Sisi Alas') +
-              inp('s2','Sisi Miring');
+        else if (currentShape === 'limas_segiempat') {
 
-    }
+            html =
+                inp('sisi_alas','Sisi Alas') +
+                inp('tinggi','Tinggi Limas') +
+                inp('tinggi_sisi','Tinggi Sisi Tegak');
 
+        }
 
-    else if (currentShape === 'trapesium') {
+        else if (currentShape === 'limas_segitiga') {
 
-        html =
-            type === 'luas'
+            html =
+                inp('alas','Alas Segitiga') +
+                inp('tinggi_alas','Tinggi Alas') +
+                inp('tinggi','Tinggi Limas') +
+                inp('luas_sisi1','Luas Sisi Tegak 1') +
+                inp('luas_sisi2','Luas Sisi Tegak 2') +
+                inp('luas_sisi3','Luas Sisi Tegak 3');
 
-            ? inp('a','Sisi Sejajar Atas') +
-              inp('b','Sisi Sejajar Bawah') +
-              inp('tinggi','Tinggi')
+        }
 
-            : inp('s1','Sisi 1') +
-              inp('s2','Sisi 2') +
-              inp('s3','Sisi 3') +
-              inp('s4','Sisi 4');
+        else if (currentShape === 'tabung') {
 
-    }
+            html =
+                inp('r','Jari-jari (r)') +
+                inp('tinggi','Tinggi (t)');
 
+        }
 
-    else if (currentShape === 'belah_ketupat') {
+        else if (currentShape === 'kerucut') {
 
-        html =
-            type === 'luas'
+            html =
+                inp('r','Jari-jari (r)') +
+                inp('tinggi','Tinggi (t)') +
+                inp('s','Garis Pelukis (s)');
 
-            ? inp('d1','Diagonal 1') +
-              inp('d2','Diagonal 2')
+        }
 
-            : inp('sisi','Sisi');
+        else if (currentShape === 'bola') {
 
-    }
+            html = inp('r','Jari-jari (r)');
 
-
-    else if (currentShape === 'layang_layang') {
-
-        html =
-            type === 'luas'
-
-            ? inp('d1','Diagonal 1') +
-              inp('d2','Diagonal 2')
-
-            : inp('s1','Sisi Pendek') +
-              inp('s2','Sisi Panjang');
-
-    }
-
-
-    else if (currentShape === 'lingkaran') {
-
-        html = inp('r','Jari-jari (r)');
+        }
 
     }
 
 
     container.innerHTML = html;
+
 
     document.getElementById('result-box')
         .style.display = 'none';
@@ -1180,319 +1756,721 @@ function calculate() {
         document.getElementById('calc-type').value;
 
     let res = 0;
-
     let steps = '';
 
 
-    /* SEGITIGA */
+    /* =================================================
+       BANGUN DATAR
+    ================================================= */
 
-    if (currentShape === 'segitiga') {
+    if (currentCategory === 'datar') {
 
-        if (type === 'luas') {
+        if (currentShape === 'segitiga') {
 
-            const a = v('alas');
-            const t = v('tinggi');
+            if (type === 'luas') {
 
-            res = 0.5 * a * t;
+                const a = v('alas');
+                const t = v('tinggi');
 
-            steps = `
-                Luas = ½ × alas × tinggi<br>
-                Luas = ½ × ${a} × ${t}<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
+                res = 0.5 * a * t;
 
-        } else {
+                steps = `
+                    Luas = ½ × alas × tinggi<br>
+                    Luas = ½ × ${a} × ${t}<br>
 
-            const a = v('s1');
-            const b = v('s2');
-            const c = v('s3');
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
 
-            res = a + b + c;
+            } else {
 
-            steps = `
-                Keliling = a + b + c<br>
-                Keliling = ${a} + ${b} + ${c}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
+                const a = v('s1');
+                const b = v('s2');
+                const c = v('s3');
+
+                res = a + b + c;
+
+                steps = `
+                    Keliling = a + b + c<br>
+                    Keliling = ${a} + ${b} + ${c}<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
         }
 
-    }
 
-
-    /* PERSEGI */
-
-    else if (currentShape === 'persegi') {
-
-        const s = v('sisi');
-
-        if (type === 'luas') {
-
-            res = s ** 2;
-
-            steps = `
-                Luas = s²<br>
-                Luas = ${s}²<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
-
-        } else {
-
-            res = 4 * s;
-
-            steps = `
-                Keliling = 4 × s<br>
-                Keliling = 4 × ${s}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
-        }
-
-    }
-
-
-    /* PERSEGI PANJANG */
-
-    else if (currentShape === 'persegi_panjang') {
-
-        const p = v('panjang');
-        const l = v('lebar');
-
-        if (type === 'luas') {
-
-            res = p * l;
-
-            steps = `
-                Luas = p × l<br>
-                Luas = ${p} × ${l}<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
-
-        } else {
-
-            res = 2 * (p + l);
-
-            steps = `
-                Keliling = 2 × (p + l)<br>
-                Keliling = 2 × (${p} + ${l})<br>
-                Keliling = 2 × ${p + l}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
-        }
-
-    }
-
-
-    /* JAJAR GENJANG */
-
-    else if (currentShape === 'jajar_genjang') {
-
-        if (type === 'luas') {
-
-            const a = v('alas');
-            const t = v('tinggi');
-
-            res = a * t;
-
-            steps = `
-                Luas = alas × tinggi<br>
-                Luas = ${a} × ${t}<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
-
-        } else {
-
-            const a = v('s1');
-            const b = v('s2');
-
-            res = 2 * (a + b);
-
-            steps = `
-                Keliling = 2 × (a + b)<br>
-                Keliling = 2 × (${a} + ${b})<br>
-                Keliling = 2 × ${a + b}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
-        }
-
-    }
-
-
-    /* TRAPESIUM */
-
-    else if (currentShape === 'trapesium') {
-
-        if (type === 'luas') {
-
-            const a = v('a');
-            const b = v('b');
-            const t = v('tinggi');
-
-            res = 0.5 * (a + b) * t;
-
-            steps = `
-                Luas = ½ × (a + b) × t<br>
-                Luas = ½ × (${a} + ${b}) × ${t}<br>
-                Luas = ½ × ${a + b} × ${t}<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
-
-        } else {
-
-            const a = v('s1');
-            const b = v('s2');
-            const c = v('s3');
-            const d = v('s4');
-
-            res = a + b + c + d;
-
-            steps = `
-                Keliling = a + b + c + d<br>
-                Keliling = ${a} + ${b} + ${c} + ${d}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
-        }
-
-    }
-
-
-    /* BELAH KETUPAT */
-
-    else if (currentShape === 'belah_ketupat') {
-
-        if (type === 'luas') {
-
-            const d1 = v('d1');
-            const d2 = v('d2');
-
-            res = 0.5 * d1 * d2;
-
-            steps = `
-                Luas = ½ × d₁ × d₂<br>
-                Luas = ½ × ${d1} × ${d2}<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
-
-        } else {
+        else if (currentShape === 'persegi') {
 
             const s = v('sisi');
 
-            res = 4 * s;
+            if (type === 'luas') {
 
-            steps = `
-                Keliling = 4 × s<br>
-                Keliling = 4 × ${s}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
+                res = s ** 2;
+
+                steps = `
+                    Luas = s²<br>
+                    Luas = ${s}²<br>
+
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = 4 * s;
+
+                steps = `
+                    Keliling = 4 × s<br>
+                    Keliling = 4 × ${s}<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'persegi_panjang') {
+
+            const p = v('panjang');
+            const l = v('lebar');
+
+            if (type === 'luas') {
+
+                res = p * l;
+
+                steps = `
+                    Luas = p × l<br>
+                    Luas = ${p} × ${l}<br>
+
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = 2 * (p + l);
+
+                steps = `
+                    Keliling = 2 × (p + l)<br>
+                    Keliling = 2 × (${p} + ${l})<br>
+                    Keliling = 2 × ${p + l}<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'jajar_genjang') {
+
+            if (type === 'luas') {
+
+                const a = v('alas');
+                const t = v('tinggi');
+
+                res = a * t;
+
+                steps = `
+                    Luas = alas × tinggi<br>
+                    Luas = ${a} × ${t}<br>
+
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                const a = v('s1');
+                const b = v('s2');
+
+                res = 2 * (a + b);
+
+                steps = `
+                    Keliling = 2 × (a + b)<br>
+                    Keliling = 2 × (${a} + ${b})<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'trapesium') {
+
+            if (type === 'luas') {
+
+                const a = v('a');
+                const b = v('b');
+                const t = v('tinggi');
+
+                res = 0.5 * (a + b) * t;
+
+                steps = `
+                    Luas = ½ × (a + b) × t<br>
+                    Luas = ½ × (${a} + ${b}) × ${t}<br>
+                    Luas = ½ × ${a + b} × ${t}<br>
+
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                const a = v('s1');
+                const b = v('s2');
+                const c = v('s3');
+                const d = v('s4');
+
+                res = a + b + c + d;
+
+                steps = `
+                    Keliling = a + b + c + d<br>
+                    Keliling = ${a} + ${b} + ${c} + ${d}<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'belah_ketupat') {
+
+            if (type === 'luas') {
+
+                const d1 = v('d1');
+                const d2 = v('d2');
+
+                res = 0.5 * d1 * d2;
+
+                steps = `
+                    Luas = ½ × d₁ × d₂<br>
+                    Luas = ½ × ${d1} × ${d2}<br>
+
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                const s = v('sisi');
+
+                res = 4 * s;
+
+                steps = `
+                    Keliling = 4 × s<br>
+                    Keliling = 4 × ${s}<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'layang_layang') {
+
+            if (type === 'luas') {
+
+                const d1 = v('d1');
+                const d2 = v('d2');
+
+                res = 0.5 * d1 * d2;
+
+                steps = `
+                    Luas = ½ × d₁ × d₂<br>
+                    Luas = ½ × ${d1} × ${d2}<br>
+
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                const a = v('s1');
+                const b = v('s2');
+
+                res = 2 * (a + b);
+
+                steps = `
+                    Keliling = 2 × (a + b)<br>
+                    Keliling = 2 × (${a} + ${b})<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'lingkaran') {
+
+            const r = v('r');
+
+            if (type === 'luas') {
+
+                res = Math.PI * r ** 2;
+
+                steps = `
+                    Luas = π × r²<br>
+                    Luas = π × ${r}²<br>
+                    Luas = π × ${formatNumber(r ** 2)}<br>
+
+                    <span class="final-step">
+                        Luas = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = 2 * Math.PI * r;
+
+                steps = `
+                    Keliling = 2 × π × r<br>
+                    Keliling = 2 × π × ${r}<br>
+
+                    <span class="final-step">
+                        Keliling = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
         }
 
     }
 
 
-    /* LAYANG-LAYANG */
+    /* =================================================
+       BANGUN RUANG
+    ================================================= */
 
-    else if (currentShape === 'layang_layang') {
+    else {
 
-        if (type === 'luas') {
+        if (currentShape === 'kubus') {
 
-            const d1 = v('d1');
-            const d2 = v('d2');
+            const s = v('sisi');
 
-            res = 0.5 * d1 * d2;
+            if (type === 'volume') {
 
-            steps = `
-                Luas = ½ × d₁ × d₂<br>
-                Luas = ½ × ${d1} × ${d2}<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
+                res = s ** 3;
 
-        } else {
+                steps = `
+                    Volume = s³<br>
+                    Volume = ${s}³<br>
+                    Volume = ${s} × ${s} × ${s}<br>
 
-            const a = v('s1');
-            const b = v('s2');
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
 
-            res = 2 * (a + b);
+            } else {
 
-            steps = `
-                Keliling = 2 × (a + b)<br>
-                Keliling = 2 × (${a} + ${b})<br>
-                Keliling = 2 × ${a + b}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
+                res = 6 * s ** 2;
+
+                steps = `
+                    Luas Permukaan = 6 × s²<br>
+                    Luas Permukaan = 6 × ${s}²<br>
+                    Luas Permukaan = 6 × ${s ** 2}<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'balok') {
+
+            const p = v('panjang');
+            const l = v('lebar');
+            const t = v('tinggi');
+
+            if (type === 'volume') {
+
+                res = p * l * t;
+
+                steps = `
+                    Volume = p × l × t<br>
+                    Volume = ${p} × ${l} × ${t}<br>
+
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = 2 * (p*l + p*t + l*t);
+
+                steps = `
+                    Luas Permukaan = 2(pl + pt + lt)<br>
+                    Luas Permukaan =
+                    2(${p}×${l} + ${p}×${t} + ${l}×${t})<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'prisma_segitiga') {
+
+            const a = v('alas');
+            const ta = v('tinggi_alas');
+            const s1 = v('s1');
+            const s2 = v('s2');
+            const s3 = v('s3');
+            const tp = v('tinggi_prisma');
+
+            const luasAlas = 0.5 * a * ta;
+            const kelilingAlas = s1 + s2 + s3;
+
+            if (type === 'volume') {
+
+                res = luasAlas * tp;
+
+                steps = `
+                    Luas Alas = ½ × alas × tinggi<br>
+                    Luas Alas = ½ × ${a} × ${ta}<br>
+                    Luas Alas = ${formatNumber(luasAlas)}<br><br>
+
+                    Volume = Luas Alas × Tinggi Prisma<br>
+                    Volume = ${formatNumber(luasAlas)} × ${tp}<br>
+
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res =
+                    2 * luasAlas +
+                    kelilingAlas * tp;
+
+                steps = `
+                    Luas Alas = ${formatNumber(luasAlas)}<br>
+
+                    Keliling Alas =
+                    ${s1} + ${s2} + ${s3}
+                    = ${formatNumber(kelilingAlas)}<br><br>
+
+                    Luas Permukaan =
+                    2 × Luas Alas +
+                    Keliling Alas × Tinggi Prisma<br>
+
+                    Luas Permukaan =
+                    2 × ${formatNumber(luasAlas)}
+                    + ${formatNumber(kelilingAlas)} × ${tp}<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'limas_segiempat') {
+
+            const s = v('sisi_alas');
+            const t = v('tinggi');
+            const ts = v('tinggi_sisi');
+
+            const luasAlas = s ** 2;
+            const luasSatuSisi = 0.5 * s * ts;
+            const luasSisiTegak = 4 * luasSatuSisi;
+
+            if (type === 'volume') {
+
+                res = (1/3) * luasAlas * t;
+
+                steps = `
+                    Luas Alas = s²<br>
+                    Luas Alas = ${s}²<br>
+                    Luas Alas = ${formatNumber(luasAlas)}<br><br>
+
+                    Volume = ⅓ × Luas Alas × Tinggi<br>
+                    Volume = ⅓ × ${formatNumber(luasAlas)} × ${t}<br>
+
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = luasAlas + luasSisiTegak;
+
+                steps = `
+                    Luas Alas = ${formatNumber(luasAlas)}<br>
+
+                    Luas 1 Sisi Tegak =
+                    ½ × ${s} × ${ts}
+                    = ${formatNumber(luasSatuSisi)}<br>
+
+                    Luas 4 Sisi Tegak =
+                    4 × ${formatNumber(luasSatuSisi)}
+                    = ${formatNumber(luasSisiTegak)}<br><br>
+
+                    Luas Permukaan =
+                    ${formatNumber(luasAlas)}
+                    + ${formatNumber(luasSisiTegak)}<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'limas_segitiga') {
+
+            const a = v('alas');
+            const ta = v('tinggi_alas');
+            const t = v('tinggi');
+
+            const luasAlas = 0.5 * a * ta;
+
+            const luas1 = v('luas_sisi1');
+            const luas2 = v('luas_sisi2');
+            const luas3 = v('luas_sisi3');
+
+            if (type === 'volume') {
+
+                res = (1/3) * luasAlas * t;
+
+                steps = `
+                    Luas Alas = ½ × alas × tinggi alas<br>
+                    Luas Alas = ½ × ${a} × ${ta}<br>
+                    Luas Alas = ${formatNumber(luasAlas)}<br><br>
+
+                    Volume = ⅓ × Luas Alas × Tinggi<br>
+                    Volume =
+                    ⅓ × ${formatNumber(luasAlas)} × ${t}<br>
+
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res =
+                    luasAlas +
+                    luas1 +
+                    luas2 +
+                    luas3;
+
+                steps = `
+                    Luas Alas = ${formatNumber(luasAlas)}<br>
+
+                    Luas Permukaan =
+                    Luas Alas + Luas Sisi 1 +
+                    Luas Sisi 2 + Luas Sisi 3<br>
+
+                    Luas Permukaan =
+                    ${formatNumber(luasAlas)}
+                    + ${luas1}
+                    + ${luas2}
+                    + ${luas3}<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'tabung') {
+
+            const r = v('r');
+            const t = v('tinggi');
+
+            if (type === 'volume') {
+
+                res = Math.PI * r ** 2 * t;
+
+                steps = `
+                    Volume = π × r² × t<br>
+                    Volume = π × ${r}² × ${t}<br>
+                    Volume = π × ${r ** 2} × ${t}<br>
+
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = 2 * Math.PI * r * (r + t);
+
+                steps = `
+                    Luas Permukaan = 2πr(r + t)<br>
+                    Luas Permukaan =
+                    2 × π × ${r} × (${r} + ${t})<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'kerucut') {
+
+            const r = v('r');
+            const t = v('tinggi');
+            const s = v('s');
+
+            if (type === 'volume') {
+
+                res = (1/3) * Math.PI * r ** 2 * t;
+
+                steps = `
+                    Volume = ⅓ × π × r² × t<br>
+                    Volume =
+                    ⅓ × π × ${r}² × ${t}<br>
+
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = Math.PI * r * (r + s);
+
+                steps = `
+                    Luas Permukaan = πr(r + s)<br>
+                    Luas Permukaan =
+                    π × ${r} × (${r} + ${s})<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
+        }
+
+
+        else if (currentShape === 'bola') {
+
+            const r = v('r');
+
+            if (type === 'volume') {
+
+                res = (4/3) * Math.PI * r ** 3;
+
+                steps = `
+                    Volume = ⁴⁄₃ × π × r³<br>
+                    Volume =
+                    ⁴⁄₃ × π × ${r}³<br>
+
+                    <span class="final-step">
+                        Volume = ${formatNumber(res)}
+                    </span>
+                `;
+
+            } else {
+
+                res = 4 * Math.PI * r ** 2;
+
+                steps = `
+                    Luas Permukaan = 4πr²<br>
+                    Luas Permukaan =
+                    4 × π × ${r}²<br>
+
+                    <span class="final-step">
+                        Luas Permukaan = ${formatNumber(res)}
+                    </span>
+                `;
+
+            }
+
         }
 
     }
 
 
-    /* LINGKARAN */
+    /* =================================================
+       TAMPILKAN HASIL
+    ================================================= */
 
-    else if (currentShape === 'lingkaran') {
+    const satuan =
+        currentCategory === 'ruang'
+        ? type === 'volume'
+            ? ' satuan³'
+            : ' satuan²'
+        : ' satuan²';
 
-        const r = v('r');
-
-        if (type === 'luas') {
-
-            res = Math.PI * r ** 2;
-
-            steps = `
-                Luas = π × r²<br>
-                Luas = π × ${r}²<br>
-                Luas = π × ${formatNumber(r ** 2)}<br>
-                <span class="final-step">
-                    Luas = ${formatNumber(res)}
-                </span>
-            `;
-
-        } else {
-
-            res = 2 * Math.PI * r;
-
-            steps = `
-                Keliling = 2 × π × r<br>
-                Keliling = 2 × π × ${r}<br>
-                <span class="final-step">
-                    Keliling = ${formatNumber(res)}
-                </span>
-            `;
-        }
-
-    }
-
-
-    /* TAMPILKAN */
 
     document.getElementById('result-text')
         .innerText =
-        `${type.toUpperCase()} = ${formatNumber(res)}`;
+        `${type === 'permukaan'
+            ? 'LUAS PERMUKAAN'
+            : type.toUpperCase()}
+        = ${formatNumber(res)}${satuan}`;
+
 
     document.getElementById('steps-content')
         .innerHTML = steps;
+
 
     document.getElementById('result-box')
         .style.display = 'block';
